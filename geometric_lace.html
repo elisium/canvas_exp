@@ -9,12 +9,11 @@
           cursor: pointer;
       }
   </style>
-  <!--<script src="js/jquery.full.js"></script>-->
-  <script src="js/jquery.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
   <script>
-      $(document).ready(function(){
-        var canvas = document.getElementById("glace");
-        var context = canvas.getContext("2d");
+      $(function(){
+        var canvas = document.getElementById("glace"),
+            context = canvas.getContext("2d"),
         $('#redraw').click(function(){
             drawGlace(context, $('#hipCount').val(), $('#radius').val(), $('#color').val());
         })
@@ -44,16 +43,28 @@
   </script>
   </head>
   <body>
-      <div id=controls>
-          <label for=hiCount>Вершин</label>
-          <input id=hipCount name=hipCount type=text size=2 value=6 />
-          <label for=radius>Радиус</label>
-          <input id=radius name=radius type=text size=2 value=100 />
-          <label for=color>Цвет</label>
-          <input id=color name=color type=text size=2 value=red />
-          <button id=redraw>Нарисовать</button>
-          <button id=clear>Очистить</button>
-      </div>
+    <div id=controls>
+        <label for=hiCount>Вершин</label>
+        <input id=hipCount name=hipCount type=text size=2 value=6 />
+        <label for=radius>Радиус</label>
+        <input id=radius name=radius type=text size=2 value=100 />
+        <label for=color>Цвет</label>
+        <input id=color name=color type=text size=2 value=red />
+        <button id=redraw>Нарисовать</button>
+        <button id=clear>Очистить</button>
+    </div>
     <canvas id=glace width="1000" height="600"></canvas>
+    <script>
+        var GLace = function(options) {
+          this.context = options.context;
+          this.hips = options.hips ? options.hips : 10;
+          this.radius = options.radius ? options.radius : 300;
+          this.color = options.color ? options.color : 'red';
+
+          this.draw = function() {
+            
+          }
+        }
+    </script>
   </body>
 </html>
