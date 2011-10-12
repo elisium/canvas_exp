@@ -1,0 +1,59 @@
+ <!DOCTYPE HTML>
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style>
+      button {
+          -webkit-appearance: listbox;
+          cursor: pointer;
+      }
+  </style>
+  <!--<script src="js/jquery.full.js"></script>-->
+  <script src="js/jquery.min.js"></script>
+  <script>
+      $(document).ready(function(){
+        var canvas = document.getElementById("glace");
+        var context = canvas.getContext("2d");
+        $('#redraw').click(function(){
+            drawGlace(context, $('#hipCount').val(), $('#radius').val(), $('#color').val());
+        })
+        $('#clear').click(function(){
+            context.canvas.width = context.canvas.width + 1;
+            context.canvas.width = context.canvas.width - 1;
+        })
+      })
+      function drawGlace (context, hips, radius, color){
+          var startX = context.canvas.width/2, startY = context.canvas.height/2;
+          context.strokeStyle = color;
+        //angle between hips
+        var angleBetweenHips = (360 / hips) * Math.PI / 180;;
+        var hipCoors = new Array();
+        for (currentHip = 0 ; currentHip < hips ; currentHip++){
+            var currHipCoors = new Object();
+            currHipCoors.x = startX + radius*Math.sin(currentHip*angleBetweenHips);
+            currHipCoors.y = startY + radius*Math.cos(currentHip*angleBetweenHips);
+            for (subHip = 0; subHip < hipCoors.length; subHip++){
+                context.moveTo(currHipCoors.x, currHipCoors.y)
+                context.lineTo(hipCoors[subHip].x, hipCoors[subHip].y)
+            }
+            hipCoors.push(currHipCoors);
+        }
+        context.stroke();
+      }
+  </script>
+  </head>
+  <body>
+      <div id=controls>
+          <label for=hiCount>Вершин</label>
+          <input id=hipCount name=hipCount type=text size=2 value=6 />
+          <label for=radius>Радиус</label>
+          <input id=radius name=radius type=text size=2 value=100 />
+          <label for=color>Цвет</label>
+          <input id=color name=color type=text size=2 value=red />
+          <button id=redraw>Нарисовать</button>
+          <button id=clear>Очистить</button>
+      </div>
+    <canvas id=glace width="1000" height="600"></canvas>
+  </body>
+</html>
