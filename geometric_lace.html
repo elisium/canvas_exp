@@ -12,34 +12,23 @@
   <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
   <script>
       $(function(){
-        var canvas = document.getElementById("glace"),
-            context = canvas.getContext("2d"),
+        var context = document.getElementById("glace").getContext("2d"),
+            glace = new GLace({
+              context : context
+            });
+
         $('#redraw').click(function(){
-            drawGlace(context, $('#hipCount').val(), $('#radius').val(), $('#color').val());
-        })
-        $('#clear').click(function(){
-            context.canvas.width = context.canvas.width + 1;
-            context.canvas.width = context.canvas.width - 1;
-        })
+          glace.draw({
+            hips : $('#hipCount').val(), 
+            radius : $('#radius').val(), 
+            color : $('#color').val()
+          });
+        });
+
+        $('#clear').click(function() {
+          glace.clear()
+        });
       })
-      function drawGlace (context, hips, radius, color){
-          var startX = context.canvas.width/2, startY = context.canvas.height/2;
-          context.strokeStyle = color;
-        //angle between hips
-        var angleBetweenHips = (360 / hips) * Math.PI / 180;;
-        var hipCoors = new Array();
-        for (currentHip = 0 ; currentHip < hips ; currentHip++){
-            var currHipCoors = new Object();
-            currHipCoors.x = startX + radius*Math.sin(currentHip*angleBetweenHips);
-            currHipCoors.y = startY + radius*Math.cos(currentHip*angleBetweenHips);
-            for (subHip = 0; subHip < hipCoors.length; subHip++){
-                context.moveTo(currHipCoors.x, currHipCoors.y)
-                context.lineTo(hipCoors[subHip].x, hipCoors[subHip].y)
-            }
-            hipCoors.push(currHipCoors);
-        }
-        context.stroke();
-      }
   </script>
   </head>
   <body>
@@ -57,12 +46,38 @@
     <script>
         var GLace = function(options) {
           this.context = options.context;
-          this.hips = options.hips ? options.hips : 10;
-          this.radius = options.radius ? options.radius : 300;
-          this.color = options.color ? options.color : 'red';
 
-          this.draw = function() {
-            
+          this.draw = function(options) {
+            this.hips = options.hips || 10;
+            this.radius = options.radius || 300;
+            this.color = options.color || 'red';
+
+            var startX = this.context.canvas.width/2, 
+                startY = this.context.canvas.height/2,
+                hipsAngle = (360 / this.hips) * Math.PI / 180,
+                hipCoords = [];
+
+            for (var currentHip = 0; currentHip < this.hips; currentHip++) {
+              var currHipCoords = {
+                x : startX + this.radius * Math.sin(currentHip * hipsAngle),
+                y : startY + this.radius * Math.cos(currentHip * hipsAngle)
+              }
+
+              for(var subHip = 0, currHipsCount = hipCoords.length; subHip < currHipsCount; subHip++) {
+                this.context.moveTo(currHipCoords.x, currHipCoords.y);
+                this.context.lineTo(hipCoords[subHip].x, hipCoords[subHip].y);
+              }
+
+              hipCoords.push(currHipCoords);
+            }
+
+            this.context.strokeStyle = this.color;
+            this.context.stroke();
+          }
+
+          this.clear = function() {
+            this.context.canvas.width = this.context.canvas.width + 1;
+            this.context.canvas.width = this.context.canvas.width - 1;
           }
         }
     </script>
