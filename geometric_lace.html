@@ -55,7 +55,8 @@
             var startX = this.context.canvas.width/2, 
                 startY = this.context.canvas.height/2,
                 hipsAngle = (360 / this.hips) * Math.PI / 180,
-                hipCoords = [];
+                hipCoords = [],
+                iterations = 0;
 
             for (var currentHip = 0; currentHip < this.hips; currentHip++) {
               var currHipCoords = {
@@ -66,6 +67,7 @@
               for(var subHip = 0, currHipsCount = hipCoords.length; subHip < currHipsCount; subHip++) {
                 this.context.moveTo(currHipCoords.x, currHipCoords.y);
                 this.context.lineTo(hipCoords[subHip].x, hipCoords[subHip].y);
+                iterations++;
               }
 
               hipCoords.push(currHipCoords);
@@ -73,6 +75,7 @@
 
             this.context.strokeStyle = this.color;
             this.context.stroke();
+            console.log('Iterations: ', iterations);
           }
 
           this.clear = function() {
