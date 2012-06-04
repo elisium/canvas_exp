@@ -7,9 +7,9 @@
 </head>
 <body>
 	<div id="controls">
-		<label for="totalHips">Total Hips: </label><input id="totalHips" value=10 />
-		<label for="color">Color: </label><input id="color" value=6 />
-		<label for="radius">Total Hips: </label><input id="radius" value=300 />
+		<label for="totalHips">Total Hips: </label><input id="totalHips" value=80 />
+		<label for="color">Color: </label><input id="color" value=red />
+		<label for="radius">Radius: </label><input id="radius" value=900 />
 		<button id="draw">Draw</button>
 		<button id="clear">Clear</button>
 	</div>
@@ -19,7 +19,9 @@
 		var lace = new GLace();
 		$('draw').addEventListener('click', function (event) {
 			lace.draw({
-
+				totalHips: $('totalHips').value,
+				color: $('color').value,
+				radius: $('radius').value
 			});
 		});
 		$('clear').addEventListener('click', function (event) {

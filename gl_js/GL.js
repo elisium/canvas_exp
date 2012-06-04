@@ -19,7 +19,7 @@ var GLace, $;
 	//utils
 	extend = function (obj1, obj2) {
 		for (var key in obj1) {  //proper for-in pattern
-			if ( options.hasOwnProperty(key) ) {
+			if ( obj1.hasOwnProperty(key) ) {
 				obj2[key] = obj1[key];
 			}
 		}
@@ -112,6 +112,7 @@ var GLace, $;
 			hipsAngle = (360 / defaults.totalHips) * Math.PI / 180;
 			totalHips = defaults.totalHips;
 
+			//drowing logic
 			for (var currentHip = 0; currentHip < totalHips; currentHip++) {
 				var currHipCoords = {
 					x : startX + defaults.radius * Math.sin(currentHip * hipsAngle),
