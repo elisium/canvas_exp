@@ -1,0 +1,88 @@
+ <!DOCTYPE HTML>
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style>
+      button {
+          -webkit-appearance: listbox;
+          cursor: pointer;
+      }
+  </style>
+  <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+  <script>
+      $(function(){
+        var context = document.getElementById("glace").getContext("2d"),
+            glace = new GLace({
+              context : context
+            });
+
+        $('#redraw').click(function(){
+          glace.draw({
+            hips : $('#hipCount').val(), 
+            radius : $('#radius').val(), 
+            color : $('#color').val()
+          });
+        });
+
+        $('#clear').click(function() {
+          glace.clear()
+        });
+      })
+  </script>
+  </head>
+  <body>
+    <div id=controls>
+        <label for=hiCount>Вершин</label>
+        <input id=hipCount name=hipCount type=text size=2 value=6 />
+        <label for=radius>Радиус</label>
+        <input id=radius name=radius type=text size=2 value=100 />
+        <label for=color>Цвет</label>
+        <input id=color name=color type=text size=2 value=red />
+        <button id=redraw>Нарисовать</button>
+        <button id=clear>Очистить</button>
+    </div>
+    <canvas id=glace width="1000" height="600"></canvas>
+    <script>
+        var GLace = function(options) {
+          this.context = options.context;
+
+          this.draw = function(options) {
+            this.hips = options.hips || 10;
+            this.radius = options.radius || 300;
+            this.color = options.color || 'red';
+
+            var startX = this.context.canvas.width/2, 
+                startY = this.context.canvas.height/2,
+                hipsAngle = (360 / this.hips) * Math.PI / 180,
+                hipCoords = [],
+                iterations = 0;
+
+            for (var currentHip = 0; currentHip < this.hips; currentHip++) {
+              var currHipCoords = {
+                x : startX + this.radius * Math.sin(currentHip * hipsAngle),
+                y : startY + this.radius * Math.cos(currentHip * hipsAngle)
+              }
+
+              for(var subHip = 0, currHipsCount = hipCoords.length; subHip < currHipsCount; subHip++) {
+                this.context.moveTo(currHipCoords.x, currHipCoords.y);
+                this.context.lineTo(hipCoords[subHip].x, hipCoords[subHip].y);
+                iterations++;
+              }
+
+              hipCoords.push(currHipCoords);
+            }
+
+            this.context.strokeStyle = this.color;
+            this.context.stroke();
+            console.log('Iterations: ', iterations);
+          }
+
+          this.clear = function() {
+            this.context.canvas.width = this.context.canvas.width + 1;
+            this.context.canvas.width = this.context.canvas.width - 1;
+          }
+        }
+    </script>
+  </body>
+</html>
