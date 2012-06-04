@@ -1,0 +1,17 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#controls {
+	height: 30px;
+	line-height: 30px;
+}
+
+input {
+	width: 50px;
+}
+
+#canvas {
+
+}

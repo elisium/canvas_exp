@@ -1,12 +1,19 @@
 <!doctype html>
 <html>
 <head>
-	<script src="js/gl_js/GL.js"></script>
+	<title>Geometric Lace</title>
+	<script src="gl_js/GL.js"></script>
+	<link href="css/styles.css" rel="stylesheet" />
 </head>
 <body>
-	<div class="controls">
-
+	<div id="controls">
+		<label for="totalHips">Total Hips: </label><input id="totalHips" value=6 />
 	</div>
 	<canvas id="canvas"></canvas>
+
+	<script>
+		var lace = new GLace();
+		
+	</script>
 </body>
 </html>
