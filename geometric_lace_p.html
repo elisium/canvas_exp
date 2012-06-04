@@ -7,13 +7,25 @@
 </head>
 <body>
 	<div id="controls">
-		<label for="totalHips">Total Hips: </label><input id="totalHips" value=6 />
+		<label for="totalHips">Total Hips: </label><input id="totalHips" value=10 />
+		<label for="color">Color: </label><input id="color" value=6 />
+		<label for="radius">Total Hips: </label><input id="radius" value=300 />
+		<button id="draw">Draw</button>
+		<button id="clear">Clear</button>
 	</div>
 	<canvas id="canvas"></canvas>
 
 	<script>
 		var lace = new GLace();
-		lace.draw();
+		$('draw').addEventListener('click', function (event) {
+			lace.draw({
+
+			});
+		});
+		$('clear').addEventListener('click', function (event) {
+			lace.clear();
+		});
+		
 	</script>
 </body>
 </html>

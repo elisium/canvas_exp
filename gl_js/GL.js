@@ -1,4 +1,4 @@
-var GLace;
+var GLace, $;
 
 (function() {
 	'use strict';
@@ -23,6 +23,20 @@ var GLace;
 				obj2[key] = obj1[key];
 			}
 		}
+	}
+	if (typeof Function.prototype.bind === "undefined") {
+		Function.prototype.bind = function (thisArg) {
+			var fn = this,
+			slice = Array.prototype.slice,
+			args = slice.call(arguments, 1);
+
+			return function () {
+				return fn.apply(thisArg, args.concat(slice.call(arguments)));
+			}
+		}
+	}
+	$ = function (id) {
+		return document.getElementById(id);
 	}
 
 	GLace = function (options) {
@@ -50,8 +64,8 @@ var GLace;
 
 		this.iterations = 0;
 		timers = [];
-		controls = document.getElementById(defaults.controls);
-		canva = document.getElementById(defaults.canvas);
+		controls = $(defaults.controls);
+		canva = $(defaults.canvas);
 		context = canva.getContext('2d');  //cache draw context
 		//setup canvas 
 		canva.width = document.documentElement.clientWidth;
@@ -91,7 +105,8 @@ var GLace;
 			var hipsAngle,
 				totalHips,
 				hipCoords = [];
-			clearTimers();
+			this.clear();
+			context.beginPath();
 			options = options || {};
 			extend(options, defaults);
 			hipsAngle = (360 / defaults.totalHips) * Math.PI / 180;
@@ -112,9 +127,14 @@ var GLace;
 
 				hipCoords.push(currHipCoords);
             }
-            
-				stroke(defaults.color);
 
-		}
+			stroke(defaults.color);
+
+		}.bind(this);
+
+		this.clear = function () {
+			clearTimers();
+			context.clearRect(0, 0, canva.width, canva.height);
+		}.bind(this);
 	}
 } ());
