@@ -1,6 +1,6 @@
 var GLace, $;
 
-(function() {
+(function () {
 	'use strict';
 
 	var instance, //for singleton instance
@@ -12,50 +12,53 @@ var GLace, $;
 			color: "red",
 			interval: 0,
 			speed: 0
-		}, 
+		},
 		extend;
 
 
 	//utils
 	extend = function (obj1, obj2) {
-		for (var key in obj1) {  //proper for-in pattern
-			if ( obj1.hasOwnProperty(key) ) {
+        var key;
+		for (key in obj1) {  //proper for-in pattern
+			if (obj1.hasOwnProperty(key)) {
 				obj2[key] = obj1[key];
 			}
 		}
-	}
+	};
+    
 	if (typeof Function.prototype.bind === "undefined") {
 		Function.prototype.bind = function (thisArg) {
 			var fn = this,
-			slice = Array.prototype.slice,
-			args = slice.call(arguments, 1);
+                slice = Array.prototype.slice,
+                args = slice.call(arguments, 1);
 
 			return function () {
 				return fn.apply(thisArg, args.concat(slice.call(arguments)));
-			}
-		}
+			};
+		};
 	}
+    
 	$ = function (id) {
 		return document.getElementById(id);
-	}
+	};
 
 	GLace = function (options) {
 		var controls,  //single var instruction pattern
-			startX, 
-			startY, 
-			canva, 
-			context, 
+			startX,
+			startY,
+			canva,
+			context,
 			timers,
-			animate, 
-			showLine, 
-			clearTimers, 
+			animate,
+			showLine,
+			clearTimers,
 			stroke;
 
 		if (instance) { //singleton pattern
 			return instance;
 		}
 		if (!(this instanceof GLace)) { //self creating constructor pattern
-			return new GLace;
+			return new GLace();
 		}
 		instance = this;
 
@@ -79,21 +82,23 @@ var GLace, $;
 		stroke = function (color) {
 			context.strokeStyle = color;
 			context.stroke();
-		}
+		};
+        
 		animate = function (speed, fX, fY, toX, toY) { //facade example
 			if (speed === 0) {
 				context.moveTo(fX, fY);
 				context.lineTo(toX, toY);
-			} else {
-
 			}
-		}
+		};
+        
 		showLine = function (fX, fY, toX, toY) {
 			animate(defaults.speed, fX, fY, toX, toY);
-		}
+		};
+        
 		clearTimers = function () {
+            var i;
 			if (timers.length > 0) {
-				for (var i = timers.length; i--;) {
+				for (i = timers.length; i--;) {
 					clearInterval(timers[i]);
 				}
 			}

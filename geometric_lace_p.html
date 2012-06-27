@@ -16,18 +16,19 @@
 	<canvas id="canvas"></canvas>
 
 	<script>
-		var lace = new GLace();
-		$('draw').addEventListener('click', function (event) {
-			lace.draw({
-				totalHips: $('totalHips').value,
-				color: $('color').value,
-				radius: $('radius').value
-			});
-		});
-		$('clear').addEventListener('click', function (event) {
-			lace.clear();
-		});
-		
+		(function () {
+            var lace = new GLace();
+            $('draw').addEventListener('click', function (event) {
+                lace.draw({
+                    totalHips: $('totalHips').value,
+                    color: $('color').value,
+                    radius: $('radius').value
+                });
+            });
+            $('clear').addEventListener('click', function (event) {
+                lace.clear();
+            });
+		} ());
 	</script>
 </body>
 </html>
